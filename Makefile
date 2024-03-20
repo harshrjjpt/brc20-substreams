@@ -19,4 +19,4 @@ create_db:
 
 .PHONY: sink_db_out
 sink_db_out: build
-	substreams-sink-sql run -e mainnet.btc.streamingfast.io:443 "$(DSN)" sink/substreams.dev.yaml 781930:7799300
+	substreams-sink-sql run -e mainnet.btc.streamingfast.io:443 "$(DSN)" sink/substreams.dev.yaml 791930:7799300
