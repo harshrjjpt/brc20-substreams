@@ -11,7 +11,7 @@ protogen:
 
 .PHONY: stream_db_out
 stream_db_out: build
-	substreams run -e $(ENDPOINT) substreams.yaml db_out -s 779830 -t +100 -o json
+	substreams run -e $(ENDPOINT) substreams.yaml db_out -s 781930 -t +10000 -o json
 
 .PHONY: create_db
 create_db: 
@@ -19,6 +19,4 @@ create_db:
 
 .PHONY: sink_db_out
 sink_db_out: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.dev.yaml 779830:77983011
-
-
+	substreams-sink-sql run -e mainnet.btc.streamingfast.io:443 "$(DSN)" sink/substreams.dev.yaml 781930:7799300
