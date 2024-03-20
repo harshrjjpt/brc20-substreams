@@ -1,36 +1,24 @@
+CREATE SCHEMA bitcoin;
+CREATE TABLE bitcoin.cursors 
+(
+    id         text not null constraint cursor_pk primary key,
+    cursor     text,
+    block_num  bigint,
+    block_id   text
+);
 
-CREATE TABLE IF NOT EXISTS approvals (
-    "evt_tx_hash" VARCHAR(64),
-    "evt_index" INT,
-    "evt_block_time" TIMESTAMP,
-    "evt_block_number" DECIMAL,
-    "approved" VARCHAR(40),
-    "owner" VARCHAR(40),
-    "token_id" DECIMAL
+CREATE TABLE bitcoin.Deploy (
+    id         text  not null constraint deploy_pk primary key,
+    deployer   text,
+    block      text,
+    timestamp  text,
+    token      text
 );
-CREATE TABLE IF NOT EXISTS approval_for_alls (
-    "evt_tx_hash" VARCHAR(64),
-    "evt_index" INT,
-    "evt_block_time" TIMESTAMP,
-    "evt_block_number" DECIMAL,
-    "approved" BOOL,
-    "operator" VARCHAR(40),
-    "owner" VARCHAR(40)
-);
-CREATE TABLE IF NOT EXISTS ownership_transferreds (
-    "evt_tx_hash" VARCHAR(64),
-    "evt_index" INT,
-    "evt_block_time" TIMESTAMP,
-    "evt_block_number" DECIMAL,
-    "new_owner" VARCHAR(40),
-    "previous_owner" VARCHAR(40)
-);
-CREATE TABLE IF NOT EXISTS transfers (
-    "evt_tx_hash" VARCHAR(64),
-    "evt_index" INT,
-    "evt_block_time" TIMESTAMP,
-    "evt_block_number" DECIMAL,
-    "from" VARCHAR(40),
-    "to" VARCHAR(40),
-    "token_id" DECIMAL
+
+CREATE TABLE bitcoin.token (
+    id         text  not null constraint tokens_pk primary key,
+    deployment   text,
+    decimals      text,
+    max_supply  text,
+    symbol      text
 );

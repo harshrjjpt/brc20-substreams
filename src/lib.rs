@@ -409,44 +409,44 @@ fn db_out(
 
     events.deploys.iter().for_each(|deploy| {
         tables
-            .create_row("Deploy", deploy.id.clone())
-            .set("token", deploy.symbol.clone())
-            .set("deployer", deploy.deployer.clone())
-            .set("timestamp", clock.number.clone())
-            .set(
-                "block",
-                clock
-                    .timestamp
-                    .as_ref()
-                    .map(|t| t.seconds)
-                    .unwrap_or_default(),
-            );
+        .create_row("deploy", deploy.deployer.clone().to_string())
+        .set("token", deploy.symbol.clone().to_string())
+        .set("deployer", deploy.deployer.clone().to_string())
+        .set("timestamp", clock.number.clone().to_string())
+        .set(
+            "block",
+            clock
+                .timestamp
+                .as_ref()
+                .map(|t| t.seconds)
+                .unwrap_or_default().to_string(),
+        );
 
-        tables
-            .create_row("Token", deploy.symbol.clone())
-            .set("symbol", deploy.symbol.clone())
-            .set("max_supply", &deploy.max_supply)
-            // .set_bigint("mint_limit", &deploy.mint_limit)
-            .set("decimals", deploy.decimals.clone())
-            .set("deployment", deploy.id.clone());
+    tables
+        .create_row("token", deploy.symbol.clone().to_string())
+        .set("symbol", deploy.symbol.clone().to_string())
+        .set("max_supply", &deploy.max_supply.to_string())
+        // .set_bigint("mint_limit", &deploy.mint_limit)
+        .set("decimals", deploy.decimals.clone().to_string())
+        .set("deployment", deploy.id.clone().to_string());
     });
 
-    events.mints.iter().for_each(|mint| {
-        tables
-            .create_row("Mint", mint.id.clone())
-            .set("token", mint.token.clone())
-            .set("to", mint.to.clone())
-            .set("amount", &mint.amount);
-    });
+    // events.mints.iter().for_each(|mint| {
+    //     tables
+    //         .create_row("Mint", mint.id.clone())
+    //         .set("token", mint.token.clone())
+    //         .set("to", mint.to.clone())
+    //         .set("amount", &mint.amount);
+    // });
 
-    events.executed_transfers.iter().for_each(|transfer| {
-        tables
-            .create_row("Transfer", transfer.id.clone())
-            .set("token", transfer.token.clone())
-            .set("from", transfer.from.clone())
-            .set("to", transfer.to.clone())
-            .set("amount", &transfer.amount);
-    });
+    // events.executed_transfers.iter().for_each(|transfer| {
+    //     tables
+    //         .create_row("Transfer", transfer.id.clone())
+    //         .set("token", transfer.token.clone())
+    //         .set("from", transfer.from.clone())
+    //         .set("to", transfer.to.clone())
+    //         .set("amount", &transfer.amount);
+    // });
 
     balances_store
         .deltas
@@ -465,19 +465,19 @@ fn db_out(
                     )
                 };
 
-                tables
-                    .create_row("AccountBalance", delta.key.clone())
-                    .set("account", account.to_string())
-                    .set("token", token.to_string())
-                    .set("balance", &delta.new_value.to_string());
-                    // .set_bigint("transferable", &"0".into());
+                // tables
+                //     .create_row("AccountBalance", delta.key.clone())
+                //     .set("account", account.to_string())
+                //     .set("token", token.to_string())
+                //     .set("balance", &delta.new_value.to_string());
+                //     // .set_bigint("transferable", &"0".into());
 
-                tables.create_row("Account", account);
+                // tables.create_row("Account", account);
             }
             Operation::Update => {
-                tables
-                    .update_row("AccountBalance", delta.key.clone())
-                    .set("balance", &delta.new_value.to_string());
+                // tables
+                //     .update_row("AccountBalance", delta.key.clone())
+                //     .set("balance", &delta.new_value.to_string());
             }
             _ => (),
         });
@@ -488,9 +488,9 @@ fn db_out(
         // This is because an account can only have a transferable balance if it has a balance
         // in the first place, which is created when the account is the recipient of either a Mint
         // or a Transfer event.
-        tables
-            .update_row("AccountBalance", delta.key.clone())
-            .set("transferable", &delta.new_value.to_string());
+        // tables
+        //     .update_row("AccountBalance", delta.key.clone())
+        //     .set("transferable", &delta.new_value.to_string());
     });
 
     Ok(tables.to_database_changes())
